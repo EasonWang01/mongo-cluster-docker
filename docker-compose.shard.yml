@@ -1,7 +1,7 @@
 version: '3'
 services:
-    mongo-router:
-        container_name: "mongo-router"
+    cluster/mongo-router:
+        container_name: "cluster/mongo-router"
         image: mongo:4.0.1
         ports:
             - "30001:27017"
@@ -10,35 +10,35 @@ services:
             - "mongo-rs2-setup"
             - "mongo-cnf-setup"
         external_links:
-            - mongo-cnf-1:mongo-cnf-1
-            - mongo-cnf-2:mongo-cnf-2
-            - mongo-cnf-3:mongo-cnf-3
-            - mongo-1-1:mongo-1-1
-            - mongo-1-2:mongo-1-2
-            - mongo-1-3:mongo-1-3
-            - mongo-2-1:mongo-2-1
-            - mongo-2-2:mongo-2-2
-            - mongo-2-3:mongo-2-3
-        command: mongos --configdb cnf-serv/mongo-cnf-1:27017,mongo-cnf-2:27017,mongo-cnf-3:27017 --port 27017 --bind_ip 0.0.0.0
+            - cluster/mongo-cnf-1:cluster/mongo-cnf-1
+            - cluster/mongo-cnf-2:cluster/mongo-cnf-2
+            - cluster/mongo-cnf-3:cluster/mongo-cnf-3
+            - cluster/mongo-1-1:cluster/mongo-1-1
+            - cluster/mongo-1-2:cluster/mongo-1-2
+            - cluster/mongo-1-3:cluster/mongo-1-3
+            - cluster/mongo-2-1:cluster/mongo-2-1
+            - cluster/mongo-2-1:cluster/mongo-2-1
+            - cluster/mongo-2-3:cluster/mongo-2-3
+        command: mongos --configdb cnf-serv/cluster/mongo-cnf-1:27017,cluster/mongo-cnf-2:27017,cluster/mongo-cnf-3:27017 --port 27017 --bind_ip 0.0.0.0
         restart: always
 
-    mongo-shard-setup:
-        container_name: "mongo-shard-setup"
+    cluster/mongo-shard-setup:
+        container_name: "cluster/mongo-shard-setup"
         image: mongo:4.0.1
         depends_on:
-            - "mongo-router"
+            - "cluster/mongo-router"
         links:
-            - mongo-router:mongo-router
+            - cluster/mongo-router:cluster/mongo-router
         volumes:
             - ./scripts:/scripts
         environment: 
-            - MONGOS=mongo-router
-            - MONGO11=mongo-1-1
-            - MONGO12=mongo-1-2
-            - MONGO13=mongo-1-3
-            - MONGO21=mongo-2-1
-            - MONGO22=mongo-2-2
-            - MONGO23=mongo-2-3
+            - MONGOS=cluster/mongo-router
+            - MONGO11=cluster/mongo-1-1
+            - MONGO12=cluster/mongo-1-2
+            - MONGO13=cluster/mongo-1-3
+            - MONGO21=cluster/mongo-2-1
+            - MONGO22=cluster/mongo-2-1
+            - MONGO23=cluster/mongo-2-3
             - RS1=rs1
             - RS2=rs2
             - PORT=27017
