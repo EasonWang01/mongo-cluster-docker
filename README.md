@@ -10,7 +10,7 @@ For details description, steps and discussion go to:
 # Run
 
 ```
-docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml up
+docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml up -d
 ```
 
 # Tests
@@ -20,14 +20,16 @@ docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compos
 
 Basic *replica* test on *rs1* replica set (data nodes), `mongo-1-1`
 ```js
-rs.status();
+docker exec -it mongo-1-1 /bin/sh
+mongo && rs.status();
 ```
 
 this should return in `members` 3 nodes.
 
 Basic *sharding* test on *router* (mongos), `mongo-router`
 ```js
-sh.status();
+docker exec -it mongo-router /bin/sh
+mongo && rs.status();
 ```
 
 this should return something similar to:
