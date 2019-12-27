@@ -17,7 +17,7 @@ services:
         restart: always 
 
     clustermongo-2-2:
-        container_name: "clustermongo-2-1"
+        container_name: "clustermongo-2-2"
         image: mongo:4.0.1
         ports:
             - "30021:27017"
