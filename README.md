@@ -21,7 +21,8 @@ docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compos
 Basic *replica* test on *rs1* replica set (data nodes), `clustermongo-1-1`
 ```js
 docker exec -it clustermongo-1-1 /bin/sh
-mongo && rs.status();
+mongo
+rs.status();
 ```
 
 this should return in `members` 3 nodes.
@@ -29,7 +30,8 @@ this should return in `members` 3 nodes.
 Basic *sharding* test on *router* (mongos), `clustermongo-router`
 ```js
 docker exec -it clustermongo-router /bin/sh
-mongo && rs.status();
+mongo
+sh.status();
 ```
 
 this should return something similar to:
