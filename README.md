@@ -73,6 +73,14 @@ My workaround was just to kill all containers related.
 docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml rm -f
 ```
 
+# Shotdown all and Remove
+
+```
+docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml stop
+
+docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compose.cnf.yml -f docker-compose.shard.yml rm -f
+```
+
 Please pull request. :)
 
 Basically `mongosetup` service is now splitted to multiple `yml` files. :)
