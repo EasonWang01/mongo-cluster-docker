@@ -1,49 +1,49 @@
 version: '3'
 services:
-    cluster/mongo-2-1:
-        container_name: "cluster/mongo-2-1"
+    clustermongo-2-1:
+        container_name: "clustermongo-2-1"
         image: mongo:4.0.1
         ports:
             - "30022:27017"
         command: mongod --replSet rs2 --shardsvr --port 27017  --oplogSize 16 --noprealloc --smallfiles
         restart: always
 
-    cluster/mongo-2-3:
-        container_name: "cluster/mongo-2-3"
+    clustermongo-2-3:
+        container_name: "clustermongo-2-3"
         image: mongo:4.0.1
         ports:
             - "30023:27017"
         command: mongod --replSet rs2 --shardsvr --port 27017  --oplogSize 16 --noprealloc --smallfiles
         restart: always 
 
-    cluster/mongo-2-1:
-        container_name: "cluster/mongo-2-1"
+    clustermongo-2-2:
+        container_name: "clustermongo-2-1"
         image: mongo:4.0.1
         ports:
             - "30021:27017"
         command: mongod --replSet rs2 --shardsvr --port 27017  --oplogSize 16 --noprealloc --smallfiles
         links:
-            - cluster/mongo-2-1:cluster/mongo-2-1
-            - cluster/mongo-2-3:cluster/mongo-2-3
+            - clustermongo-2-1:clustermongo-2-1
+            - clustermongo-2-3:clustermongo-2-3
         restart: always
 
     mongo-rs2-setup:
         container_name: "mongo-rs2-setup"
         image: mongo:4.0.1
         depends_on:
-            - "cluster/mongo-2-1"
-            - "cluster/mongo-2-1"
-            - "cluster/mongo-2-3"
+            - "clustermongo-2-1"
+            - "clustermongo-2-2"
+            - "clustermongo-2-3"
         links:
-            - cluster/mongo-2-1:cluster/mongo-2-1
-            - cluster/mongo-2-1:cluster/mongo-2-1
-            - cluster/mongo-2-3:cluster/mongo-2-3
+            - clustermongo-2-1:clustermongo-2-1
+            - clustermongo-2-1:clustermongo-2-2
+            - clustermongo-2-3:clustermongo-2-3
         volumes:
             - ./scripts:/scripts
         environment: 
-            - MONGO1=cluster/mongo-2-1
-            - MONGO2=cluster/mongo-2-1
-            - MONGO3=cluster/mongo-2-3
+            - MONGO1=clustermongo-2-1
+            - MONGO2=clustermongo-2-2
+            - MONGO3=clustermongo-2-3
             - RS=rs2
         entrypoint: [ "/scripts/setup.sh" ]
 

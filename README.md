@@ -18,17 +18,17 @@ docker-compose -f docker-compose.1.yml -f docker-compose.2.yml  -f docker-compos
 
 0. Core tests
 
-Basic *replica* test on *rs1* replica set (data nodes), `cluster/mongo-1-1`
+Basic *replica* test on *rs1* replica set (data nodes), `clustermongo-1-1`
 ```js
-docker exec -it cluster/mongo-1-1 /bin/sh
+docker exec -it clustermongo-1-1 /bin/sh
 mongo && rs.status();
 ```
 
 this should return in `members` 3 nodes.
 
-Basic *sharding* test on *router* (mongos), `cluster/mongo-router`
+Basic *sharding* test on *router* (mongos), `clustermongo-router`
 ```js
-docker exec -it cluster/mongo-router /bin/sh
+docker exec -it clustermongo-router /bin/sh
 mongo && rs.status();
 ```
 
@@ -64,7 +64,7 @@ To establish location based partitioning on it just run `queries/init.js`.
 
 # Issues and limitations
 
-It's sometimes stuck on 'cluster/mongo-router         | 2017-01-16T21:29:48.573+0000 W NETWORK  [replSetDistLockPinger] No primary detected for
+It's sometimes stuck on 'clustermongo-router         | 2017-01-16T21:29:48.573+0000 W NETWORK  [replSetDistLockPinger] No primary detected for
 set cnf-serv'. It's because quite random order in `docker-compose`.
 
 My workaround was just to kill all containers related.
